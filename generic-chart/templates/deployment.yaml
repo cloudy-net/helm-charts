@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.image }}
+        env:
+        - name: DOCKER_IMAGE
+          value: {{ .Values.image }}
+{{- if .Values.env }}
+{{- range $key, $value := .Values.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- if or (.Values.configs) (.Values.secrets) }}
+        envFrom:
+{{- range .Values.configs }}
+        - configMapRef:
+            name: {{ . }}
+{{- end }}
+{{- range .Values.secrets }}
+        - secretRef:
+            name: {{ . }}
+{{- end }}
+{{- end }}
+        ports:
+        - containerPort: 80
+{{- if .Values.healthcheck }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.healthcheck }}
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 10
+{{- end }}
+        resources:
+          limits:
+            cpu: {{ .Values.maxCpu }}
+            memory: {{ .Values.maxMemory }}
+          requests:
+            cpu: {{ .Values.minCpu }}
+            memory: {{ .Values.minMemory }}

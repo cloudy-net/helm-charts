@@ -1,0 +1,13 @@
+image: nginx
+minMemory: 20Mi
+maxMemory: 500Mi
+minCpu: 20m
+maxCpu: 500m
+# healthcheck: /
+# env:
+#   lorem: ipsum
+#   dolor: sit
+# configs:
+#   - dotnet
+# secrets:
+#   - apis
