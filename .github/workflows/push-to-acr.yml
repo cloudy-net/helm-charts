@@ -16,15 +16,9 @@ jobs:
       - name: Helm tool installer
         uses: Azure/setup-helm@v1
         with:
-          version: 3
+          version: 3.5.2
           token: ${{ github.token }}
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Login to ACR
+        run: echo $ACRPUSHSECRET | helm registry login bjorngoranssoninvest.azurecr.io --username $ACRPUSHID --password-stdin
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
