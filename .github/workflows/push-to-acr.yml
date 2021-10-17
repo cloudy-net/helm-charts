@@ -8,8 +8,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      HELM_EXPERIMENTAL_OCI: 1
     steps:
       - uses: actions/checkout@v2
+
+      - name: Helm tool installer
+        uses: Azure/setup-helm@v1
+        with:
+          version: 3
+          token: ${{ github.token }}
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
