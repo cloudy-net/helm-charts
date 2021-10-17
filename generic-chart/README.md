@@ -1,0 +1,1 @@
+This is just a repo to package a generic helm chart for services with Deployment, Service, and Ingress.
