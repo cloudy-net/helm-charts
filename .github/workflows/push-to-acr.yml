@@ -20,5 +20,5 @@ jobs:
           token: ${{ github.token }}
 
       - name: Login to ACR
-        run: helm registry login bjorngoranssoninvest.azurecr.io --username $ACRPUSHID --password 123
+        run: echo 123 | helm registry login bjorngoranssoninvest.azurecr.io --username sdasd --password-stdin
 
