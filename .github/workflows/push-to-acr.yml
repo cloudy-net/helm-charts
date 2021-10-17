@@ -17,7 +17,7 @@ jobs:
       - name: Helm tool installer
         uses: Azure/setup-helm@v1
         with:
-          version: 3.5.2
+          version: 3.7.1
           token: ${{ github.token }}
 
       - name: Login to ACR
@@ -25,4 +25,11 @@ jobs:
         env:
           ACRPUSHSECRET: ${{ secrets.ACRPUSHSECRET }}
           ACRPUSHID: ${{ secrets.ACRPUSHID }}
+
+      - name: Pack and push
+        run: |
+          val=$(grep version helm-charts/generic-chart/Chart.yaml)
+          vals=($val)
+          helm chart save helm-charts/generic-chart $ACRNAME/helm/generic-chart:${version[1]}
+          helm chart push helm-charts/generic-chart $ACRNAME/helm/generic-chart:${version[1]}
 
