@@ -28,7 +28,7 @@ jobs:
 
       - name: Pack and push
         run: |
-          val=$(grep version helm-charts/generic-chart/Chart.yaml)
+          val=$(grep version /home/runner/work/helm-charts/helm-charts/generic-chart/Chart.yaml)
           vals=($val)
           helm chart save /home/runner/work/helm-charts/helm-charts/generic-chart $ACRNAME/helm/generic-chart:${version[1]}
           helm chart push /home/runner/work/helm-charts/helm-charts/generic-chart $ACRNAME/helm/generic-chart:${version[1]}
