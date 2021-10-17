@@ -21,5 +21,7 @@ jobs:
 
       - name: Login to ACR
         run: echo ${#ACRPUSHSECRET} 
+        env:
+          ACRPUSHSECRET: ${{ secrets.ACRPUSHSECRET }}
         #run: echo 123 | helm registry login bjorngoranssoninvest.azurecr.io --username sdasd --password-stdin
 
