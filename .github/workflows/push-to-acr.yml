@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HELM_EXPERIMENTAL_OCI: 1
+      ACRNAME: ${{ secrets.ACRNAME }}
     steps:
       - uses: actions/checkout@v2
 
@@ -20,9 +21,8 @@ jobs:
           token: ${{ github.token }}
 
       - name: Login to ACR
-        run: echo $ACRPUSHSECRET | helm registry login $ACRPUSHNAME --username $ACRPUSHID --password-stdin
+        run: echo $ACRPUSHSECRET | helm registry login $ACRNAME --username $ACRPUSHID --password-stdin
         env:
           ACRPUSHSECRET: ${{ secrets.ACRPUSHSECRET }}
           ACRPUSHID: ${{ secrets.ACRPUSHID }}
-          ACRPUSHNAME: ${{ secrets.ACRPUSHNAME }}
 
